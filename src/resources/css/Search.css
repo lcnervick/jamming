@@ -1,5 +1,6 @@
 .search {
-	width: 80%;
+	grid-area: search;
+	width: 100%;
 	height: 3rem;
 	display:flex;
 	flex-wrap: wrap;
@@ -47,11 +48,4 @@
     background-color: transparent;
     width: 2rem;
 	cursor: pointer;
-}
-
-.search-results {
-	flex: 0 0 auto;
-	width: 100%;
-	border:none;
-	padding: 0;
 }

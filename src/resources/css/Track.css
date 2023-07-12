@@ -1,0 +1,46 @@
+.tracks {
+	grid-area: tracks;
+	display: block;
+	width: 100%;
+	padding: 1rem;
+	background-color: hsl(0, 0%, 0%, 0.7);
+	color: white;
+	height: calc(100% - 2rem);
+	overflow-y: auto;
+}
+
+.tracks h3 {
+	padding-bottom: 1rem;
+	border-bottom: 1px solid white;
+}
+
+.track-list li {
+	display: grid;
+	list-style-type: none;
+	padding: 0.5rem;
+	grid-template-areas: 
+		"title add"
+		"artist add";
+	grid-template-columns: 1fr 1.5rem;
+	justify-content: space-between;
+	align-items: center;
+	text-align: left;
+	box-shadow: 0px 10px 5px -10px white;
+}
+
+.track-list .track-title {
+	font-size: 1.2rem;
+	font-weight: 600;
+	grid-area: title;
+}
+
+.track-list .track-artist {
+	grid-area: artist;
+}
+
+.track-list .track-add {
+	font-size: 1.5rem;
+	font-weight: 700;
+	grid-area: add;
+	cursor: pointer;
+}

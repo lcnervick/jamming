@@ -4,11 +4,6 @@ import './resources/css/Search.css';
 
 /**** SEARCH HANDLER ****/
 
-export function searchForMusic() {
-	let query = document.getElementById('search-bar').value;
-}
-
-
 /**** SEARCH BAR ****/
 
 export function SearchBar() {
@@ -23,11 +18,7 @@ export function SearchBar() {
 
 /**** SEARCH BUTTON ****/
 
-export function SearchButton() {
-	const handleClick = ({target}) => {
-		searchForMusic()
-	};
-
+export function SearchButton({ handleClick }) {
 	return <button id="search-button" className='search-button' onClick={handleClick}>
 		Search
 	</button>
@@ -46,8 +37,3 @@ export function ClearSearch() {
 	return <div className='search-clear' onClick={handleClick}>X</div>
 }
 
-export function SearchResults() {
-	return <div id="search-results" className='search-results'>
-
-	</div>
-}
