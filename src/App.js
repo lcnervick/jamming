@@ -1,8 +1,8 @@
 import './resources/css/App.css';
 import React, {useState, useEffect} from 'react';
 import {SearchBar, SearchButton, ClearSearch} from './Search.js';
-import {Track} from './Track.js';
 import {PlaylistName, PlaylistSave} from './Playlist.js';
+import {Track} from './Track.js';
 
 function App() {
   const clientID = 'b2359de28f42496482e8a5a0aaeb483f';

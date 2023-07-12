@@ -1,21 +1,3 @@
-.search {
-	grid-area: search;
-	width: 100%;
-	height: 3rem;
-	display:flex;
-	flex-wrap: wrap;
-	margin: 1rem auto;
-	justify-content: center;
-	align-items: center;
-	gap: 0.5rem;
-}
-.search > * {
-	border: 3px solid #8451a5;
-	background-color: white;
-	padding: 0.5rem;
-	color: #8451a5;
-}
-
 .search-bar {
 	flex: 1 0 auto;
 	height: 100%;
