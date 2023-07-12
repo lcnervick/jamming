@@ -8,12 +8,12 @@ function App() {
   const clientID = 'b2359de28f42496482e8a5a0aaeb483f';
   const clientSecret = '02ad3ab661be483bae9ef48bad4d1b2e';
 
-  const trackList = [];
-  const [tracks, setTracks] = useState(trackList);
+  const [tracks, setTracks] = useState([]);
   const [playlist, setPlaylist] = useState([]);
 
   const searchForMusic = () => {
     let query = document.getElementById('search-bar').value;
+    console.log('Searching');
     setTracks([
       {
         title: 'Happy Tuesday!',
@@ -29,12 +29,21 @@ function App() {
   }
 
   const clearSearchResults = () => {
+    let searchBar = document.getElementById('search-bar');
+		searchBar.value = '';
+		searchBar.focus();
     setTracks([]);
   }
 
-  const addTrackToPlaylist = (id) => {
-
+  const addTrackToPlaylist = (track) => {
+    setTracks(tracks.filter(t => t.id !== track.id));
+    setPlaylist(playlist.filter(t => t.id !== track.id).concat(track));
+    console.log(playlist, tracks);
   };
+
+  const removeTrackFromPlaylist = (track) => {
+    setPlaylist(playlist.filter(t => t.id !== track.id));
+  }
   
   
   return (
@@ -44,19 +53,22 @@ function App() {
         <h2>Spotify Playlist Manager</h2>
       </header>
       <main>
+
         <section className="search">
           <SearchBar />
           <SearchButton handleClick={searchForMusic} />
           <ClearSearch handleClick={clearSearchResults} />
         </section>
+
         <section className='tracks'>
           <h3>Search Results</h3>
           <ul className="track-list"> {
             tracks.map(track => (
-              <Track track={track} key={track.id} handleAdd={addTrackToPlaylist} />
+              <Track track={track} key={track.id} addOrRemove={true} handleClick={() => addTrackToPlaylist(track)} />
             ))
           } </ul>
         </section>
+
         <section className='playlist'>
           <div className='playlist-header'>
             <PlaylistName />
@@ -64,7 +76,7 @@ function App() {
           </div>
           <ul className="playlist-list"> {
             playlist.map(track => (
-              <Track track={track} key={track.id} />
+              <Track track={track} key={track.id} addOrRemove={false} handleClick={() => removeTrackFromPlaylist(track)} />
             ))
           } </ul>
         </section>

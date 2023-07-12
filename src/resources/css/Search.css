@@ -10,10 +10,10 @@
 	gap: 0.5rem;
 }
 .search > * {
-	border: 3px solid #2288b8;
+	border: 3px solid #8451a5;
 	background-color: white;
 	padding: 0.5rem;
-	color: #2288b8;
+	color: #8451a5;
 }
 
 .search-bar {
@@ -34,7 +34,7 @@
 	cursor: pointer;
 }
 .search-button:active {
-	background-color: #2288b8;
+	background-color: #8451a5;
 	color: white;
 }
 

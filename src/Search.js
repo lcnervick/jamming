@@ -28,12 +28,7 @@ export function SearchButton({ handleClick }) {
 
 /**** CLEAR SEARCH BUTTON ****/
 
-export function ClearSearch() {
-	const handleClick = ({target}) => {
-		let searchBar = document.getElementById('search-bar');
-		searchBar.value = '';
-		searchBar.focus();
-	};
+export function ClearSearch({handleClick}) {
 	return <div className='search-clear' onClick={handleClick}>X</div>
 }
 
