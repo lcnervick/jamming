@@ -1,7 +1,14 @@
+:root {
+  --theme-purple: #8451a5;
+  --theme-green: hsl(141, 75%, 48%);
+  --inactive-text: 	hsla(0, 0%, 90%, 0.5);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  color: white;
 }
 
 .App {
@@ -17,25 +24,34 @@
   background-position-y: 70%;
 }
 
-.App-logo {
-  pointer-events: none;
-}
-
 header {
   grid-area: header;
-  background-image: linear-gradient(135deg, #8451a5 0%, transparent 70%);
+  display: grid;
+  grid-template-columns: 125px 1fr 125px;
+  align-items: center;
+  justify-items: center;
+  height: 85px;
+  background-image: linear-gradient(135deg, var(--theme-purple) 0%, transparent 70%);
+}
+
+header > div{
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  padding: 2rem;
+}
+
+header .jammming-logo {
+  height: 75px;
+}
+header .spotify-logo {
+  width: 50%;
 }
 
 main {
   grid-area: main;
   width: 80%;
+  height: calc(100vh - 85px);
   margin: 0 auto;
   display: grid;
   grid-template-areas:
@@ -47,26 +63,6 @@ main {
   gap: 1rem;
 }
 
-.search {
-	grid-area: search;
-	width: 100%;
-	height: 3rem;
-	display:flex;
-	flex-wrap: wrap;
-	margin: 1rem auto;
-	justify-content: center;
-	align-items: center;
-	gap: 0.5rem;
-}
-.search > * {
-	border: 3px solid #8451a5;
-	background-color: white;
-	padding: 0.5rem;
-	color: #8451a5;
-}
-
-
-
 
 .tracks {
 	grid-area: tracks;
@@ -74,9 +70,8 @@ main {
 	width: 100%;
 	padding: 1rem;
 	background-color: hsla(0, 0%, 0%, 0.9);
-	color: white;
 	height: calc(100% - 2rem);
-	overflow-y: auto;
+  overflow: hidden;
 }
 
 .tracks h3 {
@@ -85,6 +80,11 @@ main {
 }
 
 
+.track-list {
+	overflow-y: auto;
+    height: calc(100% - 2rem);
+	margin-top: 0.25rem;
+}
 
 
 .playlist {
@@ -93,20 +93,64 @@ main {
 	width: 100%;
 	padding: 1rem;
 	background-color: hsla(0, 0%, 0%, 0.9);
-	color: white;
 	height: calc(100% - 2rem);
-	overflow-y: auto;
+	overflow: hidden;
 }
 
 .playlist-header {
 	grid-area: header;
-    width: 100%;
-    height: 2.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.5rem;
-    border-bottom: 1px solid white;
+  width: 100%;
+  height: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid white;
 	padding-bottom: 0.5rem;
 }
 
+
+/*******  DEFAULT BEHAVIORS  *******/
+
+button {
+  border: 2px solid var(--theme-purple);
+  background-color: transparent;
+  padding: 0.5em 1.5em;
+  font-weight: 600;
+  cursor: pointer;
+}
+button:active {
+  background-color: var(--theme-purple);
+}
+
+input[type="text"], input[type="password"], input[type="number"], input[list], input[type="date"], input[type="time"], input[type="tel"], input[type="address"], input[type="email"], input[type="url"], select {
+	border-width: 0px 0px 2px 0px;
+	border-color:var(--theme-purple);
+  background-color:transparent;
+  padding: 3px 3px 3px 3px;
+	line-height: 1.5em;
+  margin-top: 5px;
+}
+
+input:focus-visible, select:focus-visible {
+	outline:none;
+	border-color:var(--theme-purple);
+}
+
+input[type="text"]::placeholder {
+  color: var(--inactive-text);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  z-index:1;
+}
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.3); 
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.5); 
+  background:var(--theme-purple);
+}

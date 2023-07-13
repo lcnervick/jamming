@@ -1,26 +1,14 @@
+.playlist-list {
+	overflow-y: auto;
+    height: calc(100% - 2rem);
+	margin-top: 0.25rem;
+}
 .playlist-name {
 	flex: 1 0 auto;
-	height: 100%;
 	font-size: 1rem;
 	font-weight: bold;
-	background-color: transparent;
-	color: white;
-	border: 2px solid white;
-}
-.playlist-name::placeholder {
-	color: hsl(0, 0%, 90%, 0.7);
 }
 
 .playlist-save {
-	color: white;
     height: 100%;
-    padding: 0.25rem 2rem;
-    background-color: transparent;
-    border: 2px solid white;
-	font-weight: bold;
-	cursor: pointer;
-}
-.playlist-save:active {
-	color: hsl(0, 0%, 0%, 0.7);
-	background-color: white;
 }

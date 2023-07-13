@@ -1,34 +1,30 @@
 import React, {useState, useEffect} from 'react';
 import './resources/css/Search.css';
 
+export default function Search({setTracks, spotify}) {
+	const [text, setText] = useState('');
+	const handleChange = ({target}) => { setText(target.value) };
 
-/**** SEARCH HANDLER ****/
+	async function searchForMusic() {
+		const response = await spotify.search(text);
+		setTracks(response);
+	}
 
-/**** SEARCH BAR ****/
+	function clearSearchResults(e) {
+		e.preventDefault();
+		setText('');
+		setTracks([]);
+		document.getElementById('search-bar').focus();
+	}
+	
+	return <form onSubmit={e => { e.preventDefault(); searchForMusic() }}>
 
-export function SearchBar() {
-	const [text, setText] = useState({});
-	const handleChange = ({target}) => {
-		setText(target.value);
-	};
-	return <input type="text" id="search-bar" className="search-bar" onChange={handleChange} placeholder="Search for Music" />
-}
+	  <input type="text" id="search-bar" className="search-bar" placeholder="Search for Music" value={text} onChange={handleChange} />
 
+	  <button className='search-clear' onClick={clearSearchResults} type="button">X</button>
 
+	  <button id="search-button" className='search-button' type="submit">Search</button>
 
-/**** SEARCH BUTTON ****/
+	</form>
 
-export function SearchButton({ handleClick }) {
-	return <button id="search-button" className='search-button' onClick={handleClick}>
-		Search
-	</button>
-}
-
-
-
-/**** CLEAR SEARCH BUTTON ****/
-
-export function ClearSearch({handleClick}) {
-	return <div className='search-clear' onClick={handleClick}>X</div>
-}
-
+}	

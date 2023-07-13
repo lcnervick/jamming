@@ -1,82 +1,72 @@
 import './resources/css/App.css';
 import React, {useState, useEffect} from 'react';
-import {SearchBar, SearchButton, ClearSearch} from './Search.js';
-import {PlaylistName, PlaylistSave} from './Playlist.js';
-import {Track} from './Track.js';
+import Search from './Search.js';
+import Playlist from './Playlist.js';
+import Track from './Track.js';
+import Spotify from './Spotify.js';
+
+import logo from './resources/images/spotify.png';
+import jammmingLogo from './resources/images/Jammming-Logo.png';
 
 function App() {
-  const clientID = 'b2359de28f42496482e8a5a0aaeb483f';
-  const clientSecret = '02ad3ab661be483bae9ef48bad4d1b2e';
-
+  const spotify = new Spotify;
   const [tracks, setTracks] = useState([]);
   const [playlist, setPlaylist] = useState([]);
 
-  const searchForMusic = () => {
-    let query = document.getElementById('search-bar').value;
-    console.log('Searching');
-    setTracks([
-      {
-        title: 'Happy Tuesday!',
-        artist: 'Leif Nervick',
-        id: 1
-      },
-      {
-        title: 'Where Are My Shoes?',
-        artist: 'Thorben Nervick',
-        id: 2
-      }]
-    );
-  }
+  function addTrackToPlaylist(track) {
+    // set 'added' class to track
+    setTracks(prev => {
+      for(const t of prev) if(t.id === track.id) t.added = true;
+      return prev;
+    });
 
-  const clearSearchResults = () => {
-    let searchBar = document.getElementById('search-bar');
-		searchBar.value = '';
-		searchBar.focus();
-    setTracks([]);
-  }
-
-  const addTrackToPlaylist = (track) => {
-    setTracks(tracks.filter(t => t.id !== track.id));
-    setPlaylist(playlist.filter(t => t.id !== track.id).concat(track));
-    console.log(playlist, tracks);
+    // add track to playlist container, eliminating duplicates
+    setPlaylist(prev => {
+      return [...prev.filter(t => t.id !== track.id), track];
+    });
   };
 
-  const removeTrackFromPlaylist = (track) => {
-    setPlaylist(playlist.filter(t => t.id !== track.id));
+  function removeTrackFromPlaylist(track) {
+    // remove 'added' class from search result
+    setTracks(prev => {
+      for(const t of prev) if(t.id === track.id) t.added = false;
+      return prev;
+    });
+
+    // remove from the playlist list
+    setPlaylist(prev => {
+      return prev.filter(t => t.id !== track.id);
+    });
   }
   
   
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Jamming!</h1>
-        <h2>Spotify Playlist Manager</h2>
+        <div></div>
+        <img src={jammmingLogo} alt="jammming logo" className="jammming-logo" />
+        <img src={logo} alt="Spotify Logo" className='spotify-logo' />
       </header>
       <main>
 
         <section className="search">
-          <SearchBar />
-          <SearchButton handleClick={searchForMusic} />
-          <ClearSearch handleClick={clearSearchResults} />
+          <Search setTracks={setTracks} spotify={spotify} />
         </section>
 
         <section className='tracks'>
           <h3>Search Results</h3>
           <ul className="track-list"> {
             tracks.map(track => (
-              <Track track={track} key={track.id} addOrRemove={true} handleClick={() => addTrackToPlaylist(track)} />
+              <Track track={track} key={track.id} isSearchList={true} handleClick={() => addTrackToPlaylist(track)} />
             ))
           } </ul>
         </section>
 
         <section className='playlist'>
-          <div className='playlist-header'>
-            <PlaylistName />
-            <PlaylistSave />
-          </div>
+          <Playlist playlist={playlist} setPlaylist={setPlaylist} setTracks={setTracks} spotify={spotify} />
           <ul className="playlist-list"> {
             playlist.map(track => (
-              <Track track={track} key={track.id} addOrRemove={false} handleClick={() => removeTrackFromPlaylist(track)} />
+              <Track track={track} key={track.id} isSearchList={false} handleClick={() => removeTrackFromPlaylist(track)} />
             ))
           } </ul>
         </section>

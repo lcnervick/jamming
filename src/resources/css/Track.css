@@ -3,8 +3,9 @@
 	list-style-type: none;
 	padding: 0.5rem;
 	grid-template-areas: 
-		"title add"
-		"artist add";
+		"title action"
+		"artist action"
+		"album action";
 	grid-template-columns: 1fr 1.5rem;
 	justify-content: space-between;
 	align-items: center;
@@ -12,19 +13,47 @@
 	box-shadow: 0px 10px 5px -10px white;
 }
 
+.track-item > div {
+	padding: 0.125em 0;
+}
+
+.track-item.added > div {
+	color: var(--inactive-text);
+}
+
+.track-item svg {
+	display:inline-block;
+	width: 1em;
+	vertical-align: middle;
+	margin-right: 0.5em;
+}
+.track-item svg path {
+	fill: white;
+}
+.track-item.added svg path {
+	fill: var(--inactive-text);
+}
+
+
 .track-title {
+	grid-area: title;
 	font-size: 1.2rem;
 	font-weight: 600;
-	grid-area: title;
 }
 
 .track-artist {
 	grid-area: artist;
 }
 
-.track-add {
+.track-album {
+	grid-area: album;
+}
+
+.track-action {
+	grid-area: action;
 	font-size: 1.5rem;
 	font-weight: 700;
-	grid-area: add;
-	cursor: pointer;
+	padding: 0;
+	border: none !important;
 }
+
