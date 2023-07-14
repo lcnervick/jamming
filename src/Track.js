@@ -1,8 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import './resources/css/Track.css';
 
-export default function Track({track, handleClick, isSearchList}) {
-	
+export default function Track({track, addTrack, removeTrack, isSearchList}) {
+	const buttonType = () => {
+		if(isSearchList) return <button className='track-action' onClick={e => addTrack(track)}>{track.added ? '' : '+'}</button>;
+		else return <button className='track-action' onClick={e => removeTrack(track)}>x</button>
+	}
+
 	return <li className={'track-item' + (isSearchList && track.added ? ' added' : '')} data-track-id={track.id}>
 		<div className='track-title'>{track.title}</div>
 		<div className='track-artist'>
@@ -12,6 +16,6 @@ export default function Track({track, handleClick, isSearchList}) {
 		<div className='track-album'>
 			<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff"><g> <path  d="M425.706,86.294A240,240,0,0,0,86.294,425.706,240,240,0,0,0,425.706,86.294ZM256,464C141.309,464,48,370.691,48,256S141.309,48,256,48s208,93.309,208,208S370.691,464,256,464Z"></path> <path  d="M256,152A104,104,0,1,0,360,256,104.118,104.118,0,0,0,256,152Zm0,176a72,72,0,1,1,72-72A72.081,72.081,0,0,1,256,328Z"></path> <rect width="32" height="32" x="240" y="240" ></rect> <path  d="M256,112V80a174.144,174.144,0,0,0-79.968,19.178A177.573,177.573,0,0,0,115.2,150.39l25.586,19.219A142.923,142.923,0,0,1,256,112Z"></path> </g></svg>
 			{track.album}</div>
-		<button className='track-action' onClick={handleClick}>{isSearchList ? (track.added ? '' : '+') : 'x'}</button>
+		{buttonType()}
 	</li>
 }

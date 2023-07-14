@@ -1,14 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import './resources/css/Search.css';
 
-export default function Search({setTracks, spotify}) {
+export default function Search({setTracks, onSearch}) {
 	const [text, setText] = useState('');
 	const handleChange = ({target}) => { setText(target.value) };
-
-	async function searchForMusic() {
-		const response = await spotify.search(text);
-		setTracks(response);
-	}
 
 	function clearSearchResults(e) {
 		e.preventDefault();
@@ -17,9 +12,9 @@ export default function Search({setTracks, spotify}) {
 		document.getElementById('search-bar').focus();
 	}
 	
-	return <form onSubmit={e => { e.preventDefault(); searchForMusic() }}>
+	return <form onSubmit={e => { e.preventDefault(); onSearch(text); }}>
 
-	  <input type="text" id="search-bar" className="search-bar" placeholder="Search for Music" value={text} onChange={handleChange} />
+	  <input type="text" id="search-bar" className="search-bar" placeholder="Search for Music" onChange={handleChange} />
 
 	  <button className='search-clear' onClick={clearSearchResults} type="button">X</button>
 

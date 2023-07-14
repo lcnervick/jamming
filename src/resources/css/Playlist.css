@@ -12,3 +12,42 @@
 .playlist-save {
     height: 100%;
 }
+
+
+.playlist-item {
+	display: grid;
+	list-style-type: none;
+	padding: 0.5rem;
+	grid-template-areas: 
+		"title action"
+		"tracks action";
+	grid-template-columns: 1fr 1.5rem;
+	justify-content: space-between;
+	align-items: center;
+	text-align: left;
+	box-shadow: 0px 10px 5px -10px white;
+	cursor:pointer;
+}
+
+.playlist-item > div {
+	padding: 0.125em 0;
+}
+
+.playlist-title {
+	grid-area: title;
+	font-size: 1.2rem;
+	font-weight: 600;
+}
+
+.playlist-tracks {
+	grid-area: tracks;
+}
+
+.playlist-action {
+	grid-area: action;
+	font-size: 1.5rem;
+	font-weight: 700;
+	padding: 0;
+	border: none !important;
+}
+
