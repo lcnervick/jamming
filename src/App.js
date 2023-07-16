@@ -32,7 +32,7 @@ function App() {
         setPlaylists(spl);
         setPlaylist([]);
         // also remove added class from the search results
-        document.querySelectorAll(".track-item.added").forEach(t => t.classList.remove('added'));
+        setTracks(prev => prev.map(t => ({...t, added: false})));
         console.log("Playlists:", playlists);
       });
     } else if(playlistId === 'new') {  // a playlist has been chosen or is being created
