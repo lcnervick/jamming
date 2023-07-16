@@ -329,7 +329,7 @@ class Spotify {
 			callback(data);
 		})
 		.catch(error => {
-			console.error('Error:', error);
+			console.log('Error:', error);
 			localStorage.removeItem('code_verifier');
 			localStorage.removeItem('refresh_token');
 			localStorage.removeItem('access_token');
