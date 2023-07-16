@@ -2,7 +2,7 @@ class Spotify {
 	constructor() {
 		this.clientId = 'b2359de28f42496482e8a5a0aaeb483f';
 		this.url = 'https://api.spotify.com/v1';
-		this.location = window.location.href.match(/localhost/) ? 'http://localhost:3000' : 'http://www.leifnervick.com/projects/jamming';
+		this.location = window.location.href.match(/localhost/) ? 'http://localhost:3000' : 'http://www.leifnervick.com/projects/jammming';
 		this._accessToken = null;
 		this._userId = null;
 		this._playlists = [];
