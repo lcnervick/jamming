@@ -87,28 +87,6 @@ main {
 }
 
 
-.playlist {
-	grid-area: playlist;
-	display: block;
-	width: 100%;
-	padding: 1rem;
-	background-color: hsla(0, 0%, 0%, 0.9);
-	height: calc(100% - 2rem);
-	overflow: hidden;
-}
-
-.playlist-header {
-	grid-area: header;
-  width: 100%;
-  height: 2.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.5rem;
-  border-bottom: 1px solid white;
-	padding-bottom: 0.5rem;
-}
-
 
 /*******  DEFAULT BEHAVIORS  *******/
 

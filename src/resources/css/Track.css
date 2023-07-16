@@ -20,6 +20,9 @@
 .track-item.added > div {
 	color: var(--inactive-text);
 }
+.track-item.added .track-action {
+	visibility: hidden;
+}
 
 .track-item svg {
 	display:inline-block;

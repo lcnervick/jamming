@@ -3,7 +3,7 @@ import './resources/css/Track.css';
 
 export default function Track({track, addTrack, removeTrack, isSearchList}) {
 	const buttonType = () => {
-		if(isSearchList) return <button className='track-action' onClick={e => addTrack(track)}>{track.added ? '' : '+'}</button>;
+		if(isSearchList) return <button className='track-action' onClick={e => addTrack(track)}>+</button>;
 		else return <button className='track-action' onClick={e => removeTrack(track)}>x</button>
 	}
 

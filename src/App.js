@@ -10,16 +10,19 @@ import jammmingLogo from './resources/images/Jammming-Logo.png';
 
 const spotify = new Spotify();
 
+
+////  TODOS  /////
+
+// Add save feature for existing playlists and separate from create function
+// Set for responsive;
+// Setup package for relative paths
+
 function App() {
   const [tracks, setTracks] = useState([]);
-
+  const [playlist, setPlaylist] = useState([]);
   const [playlists, setPlaylists] = useState([]);
-  useEffect(() => {
-    console.log('Setting Playlists: ', playlists);
 
-  }, [playlists]);
-  
-  
+
   // PLAYLIST ID TRIGGERS
   const [playlistId, setPlaylistId] = useState(null);
   useEffect(() => {
@@ -27,22 +30,26 @@ function App() {
       console.log("Getting playlist list...");
       spotify.getPlaylists().then(spl => {
         setPlaylists(spl);
+        setPlaylist([]);
+        // also remove added class from the search results
+        document.querySelectorAll(".track-item.added").forEach(t => t.classList.remove('added'));
         console.log("Playlists:", playlists);
       });
-    } else {  // a playlist has been chosen or is being created
+    } else if(playlistId === 'new') {  // a playlist has been chosen or is being created
       setPlaylists([]);
-      // TODO - if it's not new, show tracks in playlist
-    }
-  }, [playlistId]);
-
+      setPlaylist([]);
+      console.log("Clearing Playlist...");
+    } else {
+      // If it's not new, show tracks in playlist
+      spotify.getPlaylist(playlistId).then((thisPlaylist) => {
+        setPlaylists([]);
+        setPlaylist(thisPlaylist.tracks);
+        console.log('Playlist Tracks: ', thisPlaylist.tracks)
+      })
   
-  // PLAYLIST ID STATES
-  const [playlist, setPlaylist] = useState([]);
-  useEffect(() => {
-    if(playlist.length && playlistId === null) setPlaylistId('new'); // show name setter for new playlist
-    else if(!playlist.length && playlistId === 'new') setPlaylistId(null); // reset to playlist list
-    console.log("Setting Playlist Id", playlistId)
-  },[playlist]);
+    }
+    // eslint-disable-next-line
+  }, [playlistId]);
 
 
   const searchForMusic = useCallback(async (query) => {
@@ -52,17 +59,22 @@ function App() {
   
 
   const addTrackToPlaylist = useCallback((track) => {
+    if(playlistId === null) {
+      setTimeout(() => {
+
+      }, 3000)
+      return;
+    }
     // set 'added' class to track
     setTracks(prev => {
       for(const t of prev) if(t.id === track.id) t.added = true;
       return prev;
     });
-
     // add track to playlist container, eliminating duplicates
     setPlaylist(prev => {
       return [...prev.filter(t => t.id !== track.id), track];
     });
-  },[]);
+  },[playlistId]);
 
 
   const removeTrackFromPlaylist = useCallback((track) => {
@@ -71,22 +83,12 @@ function App() {
       for(const t of prev) if(t.id === track.id) t.added = false;
       return prev;
     });
-
     // remove from the playlist list
     setPlaylist(prev => {
       return prev.filter(t => t.id !== track.id);
     });
   },[]);
 
-
-  const selectPlaylist = useCallback((id) => {
-    spotify.getPlaylist(id).then((thisPlaylist) => {
-      setPlaylistId(thisPlaylist.id);
-      setPlaylist(thisPlaylist.tracks);
-      console.log('Playlist Tracks: ', thisPlaylist.tracks)
-    })
-    console.log("Selecting Playlist: ", id);
-  },[]);
 
   const savePlaylist = useCallback(async (title) => {
 		if(!title) return;
@@ -121,7 +123,13 @@ function App() {
         </section>
 
         <section className='playlist'>
-          <Playlist playlists={playlists} playlist={playlist} playlistId={playlistId} removeTrack={removeTrackFromPlaylist} choosePlaylist={selectPlaylist} savePlaylist={savePlaylist} />
+          <Playlist 
+            playlists={playlists}
+            playlist={playlist}
+            playlistId={playlistId}
+            setPlaylistId={setPlaylistId}
+            removeTrack={removeTrackFromPlaylist}
+            savePlaylist={savePlaylist} />
         </section>
       </main>
     </div>

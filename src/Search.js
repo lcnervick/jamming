@@ -14,7 +14,7 @@ export default function Search({setTracks, onSearch}) {
 	
 	return <form onSubmit={e => { e.preventDefault(); onSearch(text); }}>
 
-	  <input type="text" id="search-bar" className="search-bar" placeholder="Search for Music" onChange={handleChange} />
+	  <input type="text" id="search-bar" className="search-bar" placeholder="Search for Music" value={text} onChange={handleChange} />
 
 	  <button className='search-clear' onClick={clearSearchResults} type="button">X</button>
 
