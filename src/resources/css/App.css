@@ -1,5 +1,5 @@
 :root {
-  --theme-purple: #8451a5;
+  --theme-purple: hsl(276, 34%, 48%);
   --theme-green: hsl(141, 75%, 48%);
   --inactive-text: 	hsla(0, 0%, 90%, 0.5);
 }
@@ -89,6 +89,20 @@ main {
 
 
 /*******  DEFAULT BEHAVIORS  *******/
+
+.spotify-loader {
+  display: none;
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  background-color: hsla(276, 34%, 48%, 0.9);
+  font-size: 2rem;
+  padding: 2rem;
+}
+.spotify-loader.active {
+  display: block;
+}
 
 button {
   border: 2px solid var(--theme-purple);

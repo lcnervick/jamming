@@ -6,6 +6,10 @@ class Spotify {
 		this._accessToken = null;
 		this._userId = null;
 		this._playlists = [];
+		
+		this._loadingStatus = document.createElement('div');
+		document.body.appendChild(this._loadingStatus).classList.add("spotify-loader")
+		this._loadingStatus.innerHTML = 'Loading...';
 
 		// Oauth Processes
 		if(localStorage.getItem('access_token')) {
@@ -173,22 +177,33 @@ class Spotify {
 	}
 
 	async savePlaylist(name, id, tracks) {
+		this._loadingStatus.innerHTML = 'Saving...';
 		try {
 			await this.checkInit();
-			const newPlaylist = await this.makeRequest('POST', `/users/${this.userId}/playlists`, {name: name});
-			if(newPlaylist) {
-				const pid = newPlaylist.id;
+			let thisPlaylist = null;
+
+			if(id === 'new') {
+				// make new playlist
+				thisPlaylist = await this.makeRequest('POST', `/users/${this.userId}/playlists`, {name: name});
+			} else {
+				// update playlist name
+				thisPlaylist = await this.makeRequest('PUT', `/playlists/${id}`, {name: name});
+				thisPlaylist = await this.makeRequest('GET', `/playlists/${id}`);
+			}
+			if(thisPlaylist) {
 				const addTracks = [];
 				for(const track of tracks) addTracks.push('spotify:track:'+track.id);
-				const tracksAdded = await this.makeRequest('POST', `/playlists/${pid}/tracks`, {uris: addTracks});
+				const tracksAdded = await this.makeRequest(id === 'new' ? 'POST' : 'PUT', `/playlists/${thisPlaylist.id}/tracks`, {uris: addTracks});
 				if(tracksAdded) {
-					return await this.makeRequest('GET', `/playlists/${pid}`);
+					return await this.makeRequest('GET', `/playlists/${thisPlaylist.id}`);
 				}
-				throw Error("Track playlist assignment failed");
+				throw Error("Could not add tracks to playlist");
 			}
-			throw Error("Could not create playlist");
+			this._loadingStatus.innerHTML = 'Saving...';
+			throw Error("Could not create or update playlist");
 		} catch(e) {
 			console.log(e);
+			this._loadingStatus.innerHTML = 'Loading...';
 			return false;
 		}
 	}
@@ -205,21 +220,33 @@ class Spotify {
 
 	async makeRequest(type, endpoint, opts = {}) {
 		let url = `${this.url}${endpoint}`;
-		const reqOpts = {headers: { "Authorization": `Bearer ${this.accessToken}`}};
+		const reqOpts = {
+			method: type,
+			headers: { "Authorization": `Bearer ${this.accessToken}`}
+		};
 
 		if(type === 'GET') {
 			const queryString = Object.keys(opts).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(opts[key])).join('&');
 			if(queryString) url += "?"+queryString;
 		}
-		else if(type === 'POST') {
-			reqOpts.method = type;
+		else {
 			reqOpts.body = JSON.stringify(opts);
 			reqOpts.headers['Content-type'] = 'application/json';
 		}
 
+		this._loadingStatus.classList.add('active');
+
 		try {
 			const response = await fetch(url, reqOpts);
-			const body = await response.json();
+			let body;
+			try {
+				body = await response.json();
+			} catch(e) {
+				if(response.status === 201) return {};
+			}
+
+			this._loadingStatus.classList.remove('active');
+
 			if(response.ok) return body;
 			else {
 				if(body.error?.message === "The access token expired") {
@@ -230,6 +257,7 @@ class Spotify {
 			}
 		} catch(e) {
 			console.log(e);
+			this._loadingStatus.classList.remove('active');
 			return false;
 		}
 	}

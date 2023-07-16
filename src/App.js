@@ -7,13 +7,13 @@ import Spotify from './Spotify.js';
 
 import logo from './resources/images/spotify.png';
 import jammmingLogo from './resources/images/Jammming-Logo.png';
+import ErrorMessage from './ErrorMessage';
 
 const spotify = new Spotify();
 
 
 ////  TODOS  /////
 
-// Add save feature for existing playlists and separate from create function
 // Set for responsive;
 // Setup package for relative paths
 
@@ -21,7 +21,7 @@ function App() {
   const [tracks, setTracks] = useState([]);
   const [playlist, setPlaylist] = useState([]);
   const [playlists, setPlaylists] = useState([]);
-
+  const [errorMessage, setErrorMessage] = useState('');
 
   // PLAYLIST ID TRIGGERS
   const [playlistId, setPlaylistId] = useState(null);
@@ -60,9 +60,7 @@ function App() {
 
   const addTrackToPlaylist = useCallback((track) => {
     if(playlistId === null) {
-      setTimeout(() => {
-
-      }, 3000)
+      setErrorMessage('Please choose a playlist from the list or create a new one.');
       return;
     }
     // set 'added' class to track
@@ -91,12 +89,13 @@ function App() {
 
 
   const savePlaylist = useCallback(async (title) => {
+    console.log("Saving Playlist...", title, playlistId, playlist);
 		if(!title) return;
 		const response = await spotify.savePlaylist(title, playlistId, playlist);
     setPlaylistId(response.id);
-		console.log("Save Playlist: ", response);
-		// setPlaylist([]);
-		// setTracks([]);
+		console.log("Saved Playlist: ", response);
+    if(response.id) setErrorMessage("Playlist Saved");
+    else setErrorMessage('Playlist NOT Saved');
 	},[playlist, playlistId]);
 
 
@@ -131,6 +130,8 @@ function App() {
             removeTrack={removeTrackFromPlaylist}
             savePlaylist={savePlaylist} />
         </section>
+
+        <ErrorMessage errorMessage={errorMessage} setErrorMessage={setErrorMessage} />
       </main>
     </div>
   );

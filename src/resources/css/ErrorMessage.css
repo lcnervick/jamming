@@ -1,0 +1,22 @@
+.error-message {
+	display:none;
+}
+
+.error-message.active {
+	display: flex;
+	position: fixed;
+    top: 50%;
+    left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 1.2rem;
+	background-color: var(--theme-purple);
+	padding: 0.5rem 1.5rem;
+	gap: 2rem;
+	align-items: center;
+}
+
+.error-message button {
+	border: none;
+    padding-right: 0;
+    font-size: 1.3rem;
+}
